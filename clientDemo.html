@@ -1,0 +1,28 @@
+<!DOCTYPE html>  
+<html>  
+<head>  
+  <title>  
+      
+  </title>  
+</head>  
+<body>  
+<script>  
+  var ws = new WebSocket('ws://localhost:3000/websocket/connect:123');  
+  ws.onmessage=function(e){  
+    console.log('_message');  
+    console.log(e.data);  
+  };  
+  ws.onerror=function(err){  
+    console.log('_error');  
+    console.log(err);  
+  };  
+  ws.onopen=function(){  
+    console.log('_connect')  
+  };  
+  ws.onclose=function(){  
+    console.log('_close');  
+  };  
+    
+</script>  
+</body>  
+</html> 
