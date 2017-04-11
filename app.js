@@ -10,12 +10,12 @@ var server = app.listen(config.port, function () {
 	console.log('Server listening at http://%s:%s', config.host, config.port);
 });
 
-// 将 socket.io 附加到 http server 上，
 // 当 http server 接收到 upgrade websocket 时就将请求转给 socket.io 处理
-var io = sio.listen(server);
+global.io = sio.listen(server);
+// 直播间
+global.rooms = [];
 
-
-var apiRouter = require('./api_router.js');
+var apiRouter = require('./api_router');
 
 app.use(function(req ,res ,next){
     res.header('Access-Control-Allow-Origin', '*');
@@ -32,8 +32,9 @@ app.use(function(req ,res ,next){
         next();
     }
 });
+
 // route
-app.use('/', apiRouter(io));
+app.use('/', apiRouter);
 
 
 module.exports = app;

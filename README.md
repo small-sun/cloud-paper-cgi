@@ -12,15 +12,18 @@
 2. /token/destroy/:token 销毁演示间
 	* method:GET
 	* :token:要销毁的token。仅有“发送绘制事件”权限的用户发送的该请求才会被处理
-3. /websocket/connect/:token 建立ws连接，相当于加入演示间
-
+3. /websocket/connect/:token 客户端通过ajax请求将token传到服务器请求建立ws连接，相当于加入演示间
+	* method:GET
+	* 返回:token
+	* 客户端请求成功后执行回掉函数建立ws连接
+	var socket = io('http://host:post/' + token);
+	
 
 ## 结构说明
 * api
 	* websocket.js
 	* token.js
-	* 
-* storage
+* storage 数据存储
 * app.js
 * api_router.js
 * dispatch.js

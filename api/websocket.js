@@ -1,19 +1,29 @@
 
-exports.connect = function(io) {
-	return function() {
-		console.log("request connection");
-		console.log(io)
+// 请求建立连接
+exports.connect = function(req, res) {
+	var token = req.params.token;
+	console.log(token);
 
-		io.on('connection', function(socket) {
-			// 接受
-			socket.on('message', function(msg) {
-				console.log(msg);
-			});
-			socket.broadcast.emit('message',msg);
-		});
+	// 获取与token相对应的房间
+	var room = null;
+	for(var i = 0;i < rooms.length;i++) {
+		if(rooms[i].token == token) {
+			room = rooms[i];
+		}
+	}
 
-		// var chat = io.of('/websocket/connect/' + token);
-		// chat.emit('an event sent to all connected clients in chat namespace');
-
-	};
+	var data;
+	if(room != null) {
+		data = {
+			state: 'success',
+			token: token
+		};
+	}else {
+		data = {
+			state: "failed",
+			token: ""
+		};
+	}
+	res.send(data);
 };
+
