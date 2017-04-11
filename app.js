@@ -12,9 +12,7 @@ var server = app.listen(config.port, function () {
 
 // 将 socket.io 附加到 http server 上，
 // 当 http server 接收到 upgrade websocket 时就将请求转给 socket.io 处理
-var io = sio.listen(server, function() {
-	console.log("upgrade http to websocket");
-});
+var io = sio.listen(server);
 
 
 var apiRouter = require('./api_router.js');

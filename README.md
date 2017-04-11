@@ -20,7 +20,6 @@
 	* websocket.js
 	* token.js
 	* 
-	*
 * storage
 * app.js
 * api_router.js
