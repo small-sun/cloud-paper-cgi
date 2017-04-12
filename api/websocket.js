@@ -28,7 +28,7 @@ exports.connect = function(req, res) {
 };
 
 // 查看与websocket连接相关信息
-exports.getRooms = function() {
+exports.getRooms = function(req, res) {
 	var rooms = [];
 	var room;
 	for(var i = 0;i < ROOMS.length;i++) {
@@ -38,8 +38,8 @@ exports.getRooms = function() {
 		}
 		rooms.push(room);
 	}
-	console.log(rooms)
+	console.log("rooms:" + rooms);
 	// 返回
-	return rooms;
+	res.send(rooms);
 
 }

@@ -5,8 +5,8 @@ var fs = require('fs');
 
 // 创建token、创建房间
 var create = function(req, res) {
-	var roomId = req.params.id,
-		roomPwd = req.params.password;
+	var roomId = req.params.id || 30,
+		roomPwd = req.params.password || 123;
 	var token = "",
 		chars = config.chars;
 	
@@ -52,9 +52,11 @@ var create = function(req, res) {
 			newRoom.owner = socket;
 			// 接收房主传来的消息，存储、转发
 			newRoom.owner.on('message', function(msg) {
-				console.log(msg);
-				newRoom.owner.broadcast.emit('message', msg);
-				dataStore.write(msg);
+				if(msg != "[]") {
+					console.log("msg:" + msg);
+					newRoom.owner.broadcast.emit('message', msg);
+					dataStore.write(msg);
+				}
 			});
 			console.log('room create');
 		}else {
