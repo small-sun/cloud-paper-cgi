@@ -3,8 +3,7 @@ var config = require('./config');
 
 var express = require('express');
 var sio		= require('socket.io');
-var cluster = require('cluster');
-var numCpus = require('os').cpus().length;
+
 
 var app = express();
 
@@ -13,9 +12,9 @@ var server = app.listen(config.port, function () {
 });
 
 // 当 http server 接收到 upgrade websocket 时就将请求转给 socket.io 处理
-global.io = sio.listen(server);
+global.IO = sio.listen(server);
 // 直播间
-global.rooms = [];
+global.ROOMS = [];
 
 var apiRouter = require('./api_router');
 

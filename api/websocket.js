@@ -6,9 +6,9 @@ exports.connect = function(req, res) {
 
 	// 获取与token相对应的房间
 	var room = null;
-	for(var i = 0;i < rooms.length;i++) {
-		if(rooms[i].token == token) {
-			room = rooms[i];
+	for(var i = 0;i < ROOMS.length;i++) {
+		if(ROOMS[i].token == token) {
+			room = ROOMS[i];
 		}
 	}
 
@@ -27,3 +27,19 @@ exports.connect = function(req, res) {
 	res.send(data);
 };
 
+// 查看与websocket连接相关信息
+exports.getRooms = function() {
+	var rooms = [];
+	var room;
+	for(var i = 0;i < ROOMS.length;i++) {
+		room =  {
+			id: ROOMS[i].id,
+			token: ROOMS[i].token
+		}
+		rooms.push(room);
+	}
+	console.log(rooms)
+	// 返回
+	return rooms;
+
+}

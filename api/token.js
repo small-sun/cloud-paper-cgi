@@ -5,9 +5,13 @@ var fs = require('fs');
 
 // 创建token、创建房间
 var create = function(req, res) {
+	var roomId = req.params.id,
+		roomPwd = req.params.password;
 	var token = "",
 		chars = config.chars;
 	
+	// 判断房间名是否存在
+
 	// 生成随机字符
 	function randomChar() {
 		return chars.charAt(Math.floor(Math.random() * chars.length));
@@ -27,20 +31,24 @@ var create = function(req, res) {
 
 	// 判断token是否重复
 
+
 	// 新房间
 	var newRoom = {
-		token: token,
-		owner: null,
-		nsp: null,
-		clientList: []
+		id: roomId,	// 房间名
+		password: roomPwd != "" ? roomPwd : null,	// 房间密码
+		token: token,	// 令牌
+		owner: null,    // 房主
+		nsp: null,		// websokcet的命名空间
+		clientList: []  // 客户端列表
 	};
 
 	// 针对房主，创建房间
-	newRoom.nsp = io.of('/' + token);
+	newRoom.nsp = IO.of('/' + token);
 
 	newRoom.nsp.on('connection', function(socket){
 
 		if(newRoom.owner == null) {
+			// 设置房主socket
 			newRoom.owner = socket;
 			// 接收房主传来的消息，存储、转发
 			newRoom.owner.on('message', function(msg) {
@@ -55,7 +63,7 @@ var create = function(req, res) {
 		}
 	});
 
-	rooms.push(newRoom);
+	ROOMS.push(newRoom);
 
 	res.send(token);
 
@@ -69,9 +77,9 @@ exports.create = create;
 var destory = function(req, res) {
 	var token = req.params.token;
 
-	for(var i = 0;i < rooms.length;i++) {
-		if(rooms[i].token == token) {
-			rooms.splice(i, 1);
+	for(var i = 0;i < ROOMS.length;i++) {
+		if(ROOMS[i].token == token) {
+			ROOMS.splice(i, 1);
 			break;
 		}
 	}
