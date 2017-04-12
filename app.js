@@ -3,6 +3,8 @@ var config = require('./config');
 
 var express = require('express');
 var sio		= require('socket.io');
+var cluster = require('cluster');
+var numCpus = require('os').cpus().length;
 
 var app = express();
 
