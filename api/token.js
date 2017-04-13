@@ -9,6 +9,7 @@ var create = function(req, res) {
 	var token =createToken();
     global.TOKENS.push(token);
     if(req.params.passwd) global.TOKEN2PASSWD[token] =req.params.passwd;
+    console.log(token)
     res.cookie('token',token);
     res.send(stdRes('ok',0,{
     	token:token,

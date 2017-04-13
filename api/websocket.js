@@ -2,6 +2,7 @@
 var {stdRes,Room} = require('../lib');
 var cookieParser = require('cookie-parser');
 var Cookie = require('cookie');
+var fs = require('fs');
 
 
 
@@ -58,10 +59,16 @@ exports.getRooms = function(req, res) {
 
 
 global.IO.on('connection', function(socket){
+
+	// var datastore = fs.createWriteStream(__dirname + '/socket.json' , { 'flag': 'a+'});
+	// datastore.write(JSON.stringify(socket));
+	// console.log(socket.request.headers)
+
     var cookieObj =Cookie.parse(socket.request.headers.cookie);
+
 	var token =cookieObj.token;
 	var passwd =cookieObj.passwd;
-	console.log('client connection use '+token);
+	console.log('client connection use '+ token);
 
 	// 第一个使用token的为房间所有者
 	if(global.TOKENS.indexOf(token)!==-1){
@@ -73,7 +80,9 @@ global.IO.on('connection', function(socket){
             token,
             roomId:global.ROOMS_ID++
         });
-        global.ROOMS[token] =room;
+        global.ROOMS[token] = room;
+
+	console.log("ASdasd: " + global.ROOMS[token])
         // 为房间设置密码
         if(global.TOKEN2PASSWD[token]){
             room.passwd =global.TOKEN2PASSWD[token];
@@ -91,7 +100,8 @@ global.IO.on('connection', function(socket){
         return;
 	}
 
-	// token无效
+	//token无效
+
     if(!token || !global.ROOMS[token]){
         console.log('token invalid');
         socket.disconnect();

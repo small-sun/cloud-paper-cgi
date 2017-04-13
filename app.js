@@ -4,7 +4,8 @@ var sio		= require('socket.io');
 var cookieParser = require('cookie-parser');
 var app =global.APP =express();
 
-var clientUrl ='http://127.0.0.1';
+
+
 
 app.use(cookieParser());
 //全局变量
@@ -42,7 +43,7 @@ global.IO = sio.listen(server);
 var apiRouter = require('./api_router');
 
 app.use(function(req ,res ,next){
-    res.header('Access-Control-Allow-Origin', clientUrl);
+    res.header('Access-Control-Allow-Origin', req.headers.origin);
     res.header(
         'Access-Control-Allow-Headers',
         'Content-Type, Content-Length, Authorization, Accept, X-Requested-With'

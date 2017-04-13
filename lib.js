@@ -1,7 +1,7 @@
 class Room{
     constructor({token,roomId}){
-        this.token ='';
-        this.roomId =0;
+        this.token = token;
+        this.roomId = roomId;
         this.passwd ='';
         this.connectPool =[];
         this.historyData =[];
